@@ -5,7 +5,7 @@ const { getAllCubes } = require('./cubes');
 
 const databaseFile = path.join(__dirname, '..', '/config/database.json')
 
-const saveCube = () => {
+const saveCube = (cube, callback) => {
     getCubes((cubes) => {
         cubes.push(cube);
 
@@ -15,6 +15,7 @@ const saveCube = () => {
             }
 
             console.log('The Cube is successfully saved!')
+            callback();
         });
     });
 }

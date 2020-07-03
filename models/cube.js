@@ -12,7 +12,7 @@ class Cube {
     }
 
     //Save Cube
-    save(){
+    save(callback){
         const newCube = {
         //You could make some validation here
             id: this.id,
@@ -21,7 +21,8 @@ class Cube {
             imageUrl: this.imageUrl,
             difficulty: this.difficulty
         }
-        saveCube(newCube);
+
+        saveCube(newCube, callback);
     }
 }
 
