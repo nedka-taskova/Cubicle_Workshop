@@ -20,10 +20,14 @@ const CubeSchema = new mongoose.Schema({
         min: 1,
         max: 10
     },
-    accessories: {
+    accessories: [{
         type: 'ObjectId',
         ref: 'Accessory'
-    }
+    }]
 })
+
+CubeSchema.path('imageUrl').validate( function(url) {
+    return url.includes('http') || url.includes('https')
+}, 'Image url is not valid!')
 
 module.exports = mongoose.model('Cube', CubeSchema)

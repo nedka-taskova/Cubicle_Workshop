@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const { saveCube } = require('../controllers/database')
 
 const AccessorySchema = new mongoose.Schema({
     name: {
@@ -20,5 +19,9 @@ const AccessorySchema = new mongoose.Schema({
         ref: 'Cube'
     }
 })
+
+AccessorySchema.path('imageUrl').validate( function(url) {
+    return url.includes('http') || url.includes('https')
+}, 'Image url is not valid!')
 
 module.exports = mongoose.model('Accessory', AccessorySchema)
