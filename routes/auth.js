@@ -40,7 +40,8 @@ router.post('/signup',  async (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
-    res.render('registerPage')
+    res.clearCookie('aid')
+    res.redirect('/')
 })
 
 module.exports = router
