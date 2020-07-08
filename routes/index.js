@@ -54,10 +54,6 @@ router.get('/attach/accessory/:id', async (req, res) => {
 
     const canAttachAccessory = cube.accessories.length !== accessories.length &&  accessories.length > 0 
 
-    // console.log('+++++++++++++++++++++++++++')
-    // console.log(cube._id)
-    // console.log(data)
-
     res.render('attachAccessory', {
         title: 'Attach Accessory',
         id: req.params.id,
