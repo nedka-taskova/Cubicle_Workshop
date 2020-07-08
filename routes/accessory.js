@@ -1,18 +1,20 @@
 // TODO: Require Controllers...
 const { Router } = require('express')
 const { getAccessories, attachedAccessories } = require('../controllers/accessories')
-const { getCube, updateCube, getCubeWithAccessories } = require('../controllers/cubes')
+const { getCube, updateCube} = require('../controllers/cubes')
+const { authAccess, getUserStatus, authAccessJSON } = require('../controllers/user')
 const Accessory = require('../models/accessory')
 
 const router = Router();
 
-router.get('/create/accessory', (req, res) => {
+router.get('/create/accessory', authAccess, getUserStatus, (req, res) => {
     res.render('createAccessory', {
-        title: 'Create Accessory'
+        title: 'Create Accessory',
+        isLoggedIn: req.isLoggedIn
     })
 })
 
-router.post('/create/accessory', async(req, res) => {
+router.post('/create/accessory',  authAccessJSON, async(req, res) => {
     const {
         name,
         description,
@@ -30,7 +32,7 @@ router.post('/create/accessory', async(req, res) => {
     res.redirect('/create/accessory');
 })
 
-router.get('/attach/accessory/:id', async (req, res) => {
+router.get('/attach/accessory/:id', authAccess, getUserStatus, async (req, res) => {
     const cube = await getCube(req.params.id)
     const accessories = await getAccessories();
     
@@ -43,11 +45,12 @@ router.get('/attach/accessory/:id', async (req, res) => {
         id: req.params.id,
         ...cube,
         accessories,
-        canAttachAccessory
+        canAttachAccessory,
+        isLoggedIn: req.isLoggedIn
     })
 })
 
-router.post('/attach/accessory/:id', async (req, res) => {
+router.post('/attach/accessory/:id', authAccessJSON, async (req, res) => {
     const{
         accessory
     } = req.body

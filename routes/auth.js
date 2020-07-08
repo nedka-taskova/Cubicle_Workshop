@@ -1,10 +1,13 @@
 const { Router } = require('express')
-const { saveUser, verifyUser } = require('../controllers/user')
+const { saveUser, verifyUser, guestAccess, getUserStatus } = require('../controllers/user')
 
 const router = Router();
 
-router.get('/login', (req, res) => {
-    res.render('loginPage')
+router.get('/login', guestAccess, getUserStatus, (req, res) => {
+    res.render('loginPage', {
+        title: 'Login | Cube Workshop',
+        isLoggedIn: req.isLoggedIn
+    })
 })
 
 router.post('/login',  async (req, res) => {
@@ -18,8 +21,11 @@ router.post('/login',  async (req, res) => {
     res.redirect('/')
 })
 
-router.get('/signup', (req, res) => {
-    res.render('registerPage')
+router.get('/signup', guestAccess, getUserStatus, (req, res) => {
+    res.render('registerPage', {
+        title: 'Register | Cube Workshop',
+        isLoggedIn: req.isLoggedIn
+    })
 })
 
 router.post('/signup',  async (req, res) => {
